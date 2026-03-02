@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { ACTIVITIES, type Activity } from "@/lib/activities";
+import { Icon } from "@/components/icons";
+
 
 const STORAGE_KEY = "whatnow_saved_ids";
 
@@ -136,26 +138,29 @@ const [filters, setFilters] = useState<Filters>({
   }
 
   function onSave() {
-    if (savedIds.includes(activity.id)) {
-      setSavedToast("Already saved.");
-      setTimeout(() => setSavedToast(null), 1200);
-      return;
-    }
-    const next = [...savedIds, activity.id];
+    const alreadySaved = savedIds.includes(activity.id);
+
+    const next = alreadySaved
+      ? savedIds.filter((id) => id !== activity.id)
+      : [...savedIds, activity.id];
+
     setSavedIds(next);
     saveSavedIds(next);
-    setSavedToast("Saved!");
+
+    setSavedToast(alreadySaved ? "Removed." : "Saved!");
     setTimeout(() => setSavedToast(null), 1200);
   }
 
   const mode: "idle" | "inProgress" | "done" =
   completed ? "done" : inProgress ? "inProgress" : "idle";
+  const isSaved = savedIds.includes(activity.id);
+  const bookmarkIconName = isSaved ? "bookmarkFilled" : "bookmark";
 
   return (
     <main className="min-h-screen bg-[#F2F2F2] px-6 pb-8 pt-4">
       <div className="mx-auto flex h-full max-w-[460px] flex-col">
         {/* Big title */}
-        <div className="mt-2 mb-8">
+        <div className="mt-2 mb-8 flex justify-center">
           <h1 className="text-[32px] font-semibold leading-[38px] text-[#C7C7CC]">
             Got a moment?
           </h1>
@@ -231,7 +236,7 @@ const [filters, setFilters] = useState<Filters>({
                   className="flex h-14 w-14 items-center justify-center rounded-full bg-[#F2F2F7]"
                   aria-label="Save"
                 >
-                  🔖
+                   <Icon name={bookmarkIconName} className="text-black" />
                 </button>
               </>
             )}
@@ -250,7 +255,7 @@ const [filters, setFilters] = useState<Filters>({
                   className="flex h-14 w-14 items-center justify-center rounded-full bg-[#30C987]"
                   aria-label="Save"
                 >
-                  🔖
+                  <Icon name={bookmarkIconName} className="text-black" />
                 </button>
               </>
             )}
@@ -261,7 +266,7 @@ const [filters, setFilters] = useState<Filters>({
                 className="flex w-full items-center justify-center rounded-full bg-black/10 py-4"
                 aria-label="Save"
               >
-                🔖
+                <Icon name={bookmarkIconName} className="text-black" />
               </button>
             )}
           </div>
