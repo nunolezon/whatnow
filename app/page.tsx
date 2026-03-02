@@ -152,150 +152,158 @@ const [filters, setFilters] = useState<Filters>({
   completed ? "done" : inProgress ? "inProgress" : "idle";
 
   return (
-    <main className="min-h-screen bg-[#F2F2F2] flex flex-col px-6 pt-10 pb-6">
-      {/* Big title */}
-      <div className="mb-10">
-        <h1 className="text-5xl font-semibold text-gray-400">Got a moment?</h1>
-      </div>
-  
-      {/* Suggestion card */}
-      <section
-        className={[
-          "rounded-[48px] p-10 min-h-[520px] flex flex-col justify-between",
-          inProgress ? "bg-[#3ED598] shadow-md" : "bg-[#EDEDED] shadow-sm",
-        ].join(" ")}
-      >
-        {/* Top label / timer / done icon */}
-        <div className="text-center">
-          {mode === "idle" && <p className="text-gray-500">Try this</p>}
-
-          {mode === "inProgress" && (
-            <p className="text-black/50">
-              {secondsLeft !== null ? formatMMSS(secondsLeft) : ""}
-            </p>
-          )}
-
-          {mode === "done" && (
-            <div className="flex justify-center">
-              <div className="w-10 h-10 rounded-full bg-black/10 flex items-center justify-center text-black/50">
-                ✓
-              </div>
-            </div>
-          )}
+    <main className="min-h-screen bg-[#F2F2F2] px-6 pb-8 pt-4">
+      <div className="mx-auto flex h-full max-w-[460px] flex-col">
+        {/* Big title */}
+        <div className="mt-2 mb-8">
+          <h1 className="text-[32px] font-semibold leading-[38px] text-[#C7C7CC]">
+            Got a moment?
+          </h1>
         </div>
 
-        {/* Center content */}
-        <div className="flex-1 flex flex-col items-center justify-center text-center gap-6">
-          {/* Faded activity title behind */}
-          <div className={inProgress ? "text-black/25" : "text-black"}>
-            <div className="text-5xl font-semibold leading-tight">
-              {activity.title}
-            </div>
+        {/* Suggestion card */}
+        <section
+          className={[
+            "rounded-[40px] px-8 pt-8 pb-7 min-h-[420px] flex flex-col justify-between shadow-[0_22px_60px_rgba(0,0,0,0.12)]",
+            inProgress ? "bg-[#3ED598]" : "bg-white",
+          ].join(" ")}
+        >
+          {/* Top label / timer / done icon */}
+          <div className="mb-8 text-center text-sm font-medium text-gray-500">
+            {mode === "idle" && <p>Try this</p>}
+
+            {mode === "inProgress" && (
+              <p className="text-black/60">
+                {secondsLeft !== null ? formatMMSS(secondsLeft) : ""}
+              </p>
+            )}
+
+            {mode === "done" && (
+              <div className="flex justify-center">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black/10 text-base text-black/60">
+                  ✓
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Big action line (only when started) */}
-          {mode === "inProgress" && (
-            <div className="text-5xl font-semibold">
-              Let&apos;s do it
-            </div>
-          )}
-
-          {/* Big action line (only when done) */}
-          {mode === "done" && (
-            <div className="text-5xl font-semibold">
-              Done, good job
-            </div>
-          )}
-        </div>
-
-        {/* Bottom buttons */}
-        <div className="flex items-center gap-4">
-          {mode === "idle" && (
-            <>
-              <button
-                className="flex-1 py-5 rounded-full bg-[#3ED598] text-black font-medium"
-                onClick={onStart}
-              >
-                Start
-              </button>
-
-              <button
-                onClick={onSave}
-                className="w-16 h-16 rounded-full bg-[#E0E0E0] flex items-center justify-center"
-                aria-label="Save"
-              >
-                🔖
-              </button>
-            </>
-          )}
-
-          {mode === "inProgress" && (
-            <>
-              <button
-                className="flex-1 py-5 rounded-full bg-white text-black font-medium"
-                onClick={onDone}
-              >
-                Done
-              </button>
-
-              <button
-                onClick={onSave}
-                className="w-16 h-16 rounded-full bg-[#30C987] flex items-center justify-center"
-                aria-label="Save"
-              >
-                🔖
-              </button>
-            </>
-          )}
-
-          {mode === "done" && (
-            <button
-              onClick={onSave}
-              className="w-full py-6 rounded-full bg-black/10 flex items-center justify-center"
-              aria-label="Save"
+          {/* Center content */}
+          <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
+            {/* Activity title */}
+            <div
+              className={
+                inProgress ? "text-black/25" : "text-black"
+              }
             >
-              🔖
+              <div className="text-[28px] font-semibold leading-8">
+                {activity.title}
+              </div>
+            </div>
+
+            {/* Big action line (only when started) */}
+            {mode === "inProgress" && (
+              <div className="text-[28px] font-semibold leading-8 text-black">
+                Let&apos;s do it
+              </div>
+            )}
+
+            {/* Big action line (only when done) */}
+            {mode === "done" && (
+              <div className="text-[28px] font-semibold leading-8 text-black">
+                Done, good job
+              </div>
+            )}
+          </div>
+
+          {/* Bottom buttons */}
+          <div className="mt-8 flex items-center gap-4">
+            {mode === "idle" && (
+              <>
+                <button
+                  className="flex-1 rounded-full bg-[#3ED598] py-4 text-base font-semibold text-black"
+                  onClick={onStart}
+                >
+                  Start
+                </button>
+
+                <button
+                  onClick={onSave}
+                  className="flex h-14 w-14 items-center justify-center rounded-full bg-[#F2F2F7]"
+                  aria-label="Save"
+                >
+                  🔖
+                </button>
+              </>
+            )}
+
+            {mode === "inProgress" && (
+              <>
+                <button
+                  className="flex-1 rounded-full bg-white py-4 text-base font-semibold text-black"
+                  onClick={onDone}
+                >
+                  Done
+                </button>
+
+                <button
+                  onClick={onSave}
+                  className="flex h-14 w-14 items-center justify-center rounded-full bg-[#30C987]"
+                  aria-label="Save"
+                >
+                  🔖
+                </button>
+              </>
+            )}
+
+            {mode === "done" && (
+              <button
+                onClick={onSave}
+                className="flex w-full items-center justify-center rounded-full bg-black/10 py-4"
+                aria-label="Save"
+              >
+                🔖
+              </button>
+            )}
+          </div>
+        </section>
+
+        {/* Bottom actions */}
+        <div className="mt-5 flex flex-col gap-3">
+          {!inProgress && !completed ? (
+            <>
+              <button
+                onClick={onSwap}
+                className="rounded-full bg-white py-4 text-base font-semibold text-black shadow-sm"
+              >
+                Give me another idea
+              </button>
+
+              <a
+                href="/refine"
+                className="rounded-full bg-white py-4 text-center text-base font-semibold text-black shadow-sm"
+              >
+                Refine for you
+              </a>
+            </>
+          ) : inProgress ? (
+            <button
+              onClick={() => {
+                setInProgress(false);
+                setSecondsLeft(null);
+              }}
+              className="rounded-full bg-white py-4 text-base font-semibold text-black shadow-sm"
+            >
+              Cancel
             </button>
-          )}
-        </div>
-      </section>
-  
-      {/* Bottom actions */}
-      <div className="flex flex-col gap-4 mt-6">
-        {!inProgress && !completed ? (
-          <>
+          ) : (
             <button
               onClick={onSwap}
-              className="py-4 rounded-full bg-[#EDEDED] font-medium"
+              className="rounded-full bg-white py-4 text-base font-semibold text-black shadow-sm"
             >
-              Give me another idea
+              Another one
             </button>
-  
-            <a
-              href="/refine"
-              className="py-4 rounded-full bg-[#EDEDED] text-center font-medium"
-            >
-              Refine for you
-            </a>
-          </>
-        ) : inProgress ? (
-          <button
-            onClick={() => {
-              setInProgress(false);
-              setSecondsLeft(null);
-          }}
-            className="py-4 rounded-full bg-[#EDEDED] font-medium"
-          >
-            Cancel
-          </button>
-        ) : (
-          <button
-            onClick={onSwap}
-            className="py-4 rounded-full bg-[#EDEDED] font-medium"
-          >
-            Another one
-          </button>
-        )}
+          )}
+        </div>
       </div>
     </main>
   );
